@@ -1,8 +1,8 @@
 import servicesConfig from "./servicesConfig";
 
-const fetchMovies = async () => {
+const fetchService = async (path? : string) => {
     try {
-        const response = await fetch(`${servicesConfig.apiUrl}/movie/now_playing`, {
+        const response = await fetch(`${servicesConfig.apiUrl}/${path}`, {
             headers: {
                 Authorization: `Bearer ${servicesConfig.apiToken}`,
                 'Content-Type': 'application/json',
@@ -21,4 +21,4 @@ const fetchMovies = async () => {
     }
 };
 
-export default fetchMovies;
+export default fetchService;

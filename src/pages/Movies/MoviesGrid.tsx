@@ -1,6 +1,5 @@
 import { MovieCard } from '../../design/molecules/MovieCard';
 import { Grid } from '../../design/ui/Grid';
-import servicesConfig from "../../services/servicesConfig";
 
 interface MoviePoster {
     id: number;

@@ -1,25 +1,29 @@
 import { useFetchMoviesQuery } from './services/useFetchMoviesQuery';
-import { Routes, Route } from "react-router-dom";
-
-import { Layout } from './design/ui/Layout'
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Movies from './pages/Movies/Movies'
 import MovieDetails from './pages/MovieDetails/MovieDetails';
 
 function App() {
 
-  const {movies} = useFetchMoviesQuery()
+  const { movies } = useFetchMoviesQuery()
+
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Movies movies={movies} />
+    },
+    {
+      path: '/movies',
+      element: <Movies movies={movies} />
+    },
+    {
+      path: '/movie/:movieId',
+      element: <MovieDetails />
+    },
+  ])
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Movies movies={movies} />} />
-          <Route path="movie/:movieId" element={<MovieDetails />} />
-          <Route path="*" element={<Layout />} />
-        </Route>
-      </Routes>
-      <Movies movies={movies} />
-    </>
+      <RouterProvider router={router} />
   )
 }
 
