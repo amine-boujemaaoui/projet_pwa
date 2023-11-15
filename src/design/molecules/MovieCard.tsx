@@ -14,10 +14,9 @@ export const MovieCard = ({ id, poster_path }: MovieCardProps) => {
         <Link to={`movie/${id}`}>
             <Card customStyle={{
                 "&:hover": {
-                    transform: "scale(1.1)"
+                    transform: "scale(1.05)"
                 },
-                transition: "all 0.2s ease-out",
-                height: "500px"
+                transition: "all 0.2s ease-out"
             }}>
                 
                 <PosterImage src={`${serviceConfig.apiImagesUrl}${poster_path}`} alt={`${id}`} />
@@ -27,7 +26,10 @@ export const MovieCard = ({ id, poster_path }: MovieCardProps) => {
 };
 
 const PosterImage = styled("img")({
-    width: "100%",
+    maxWidth: "100%",
+    height: "auto",
+    objectFit: "cover",
+    display: "block",
 });
 
 
