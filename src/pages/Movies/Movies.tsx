@@ -1,13 +1,9 @@
+import { Movie } from '../../interfaces/movie';
 import MoviesGrid from './MoviesGrid';
 import styled from "@emotion/styled";
 
-interface MoviePoster {
-    id: number;
-    poster_path: string;
-}
-
 interface MoviesGridProps {
-    movies: MoviePoster[];
+    movies: Movie[];
 }
 
 function Movies({ movies }: MoviesGridProps) {
@@ -31,7 +27,6 @@ const Main = styled("main")({
     minHeight: "100vh",
     backgroundColor: "#1f2937",
     padding: "3rem",
-
 })
 
 const Header = styled("div")({

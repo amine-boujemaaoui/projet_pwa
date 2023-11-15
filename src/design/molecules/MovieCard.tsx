@@ -1,14 +1,10 @@
 import { Card } from "../atoms/Card";
-import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import  serviceConfig  from '../../services/servicesConfig'
+import { PosterImage } from "../atoms/PosterImage";
+import { Movie } from "../../interfaces/movie";
 
-interface MovieCardProps {
-    id: number;
-    poster_path: string;
-}
-
-export const MovieCard = ({ id, poster_path }: MovieCardProps) => {
+export const MovieCard = ({ id, poster_path }: Movie) => {
 
     return (
         <Link to={`movie/${id}`}>
@@ -16,22 +12,15 @@ export const MovieCard = ({ id, poster_path }: MovieCardProps) => {
                 "&:hover": {
                     transform: "scale(1.05)"
                 },
-                transition: "all 0.2s ease-out"
+                transition: "all 0.2s ease-out",
+                cursor: "pointer",
+                boxShadow: "0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1)"
             }}>
-                
                 <PosterImage src={`${serviceConfig.apiImagesUrl}${poster_path}`} alt={`${id}`} />
             </Card>
         </Link>
     )
 };
-
-const PosterImage = styled("img")({
-    maxWidth: "100%",
-    height: "auto",
-    objectFit: "cover",
-    display: "block",
-});
-
 
 
 
