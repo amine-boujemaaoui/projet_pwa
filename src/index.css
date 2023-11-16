@@ -10,12 +10,12 @@ body {
 }
 
 .dark-theme {
-  background-color: #1a1a1a;
+  background-color: rgb(25, 33, 44);
   color: #ffffff;
 }
 
 .light-theme {
-  background-color: #ffffff;
+  background: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
   color: #000000;
 }
 

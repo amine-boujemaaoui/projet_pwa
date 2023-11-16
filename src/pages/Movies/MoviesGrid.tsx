@@ -1,16 +1,8 @@
 import { MovieCard } from '../../design/molecules/MovieCard';
 import { Grid } from '../../design/ui/Grid';
+import { Movie } from '../../interfaces/movie';
 
-interface MoviePoster {
-    id: number;
-    poster_path: string;
-}
-
-interface MoviesGridProps {
-    movies: MoviePoster[];
-}
-
-function MoviesGrid({ movies }: MoviesGridProps) {
+function MoviesGrid({ movies }: { movies: Movie[]}) {
 
     return (
         <Grid>

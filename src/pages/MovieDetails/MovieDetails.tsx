@@ -8,8 +8,11 @@ import { useFetchMovieCredits } from "../../services/useFetchMovieCreditsQuery";
 import { CreditCard } from "../../design/molecules/CreditCard";
 import { Genre } from "../../interfaces/genre";
 import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
+import ErrorPage from "../Error/ErrorPage";
+import LoadingPage from "../Loading/LoadingPage";
 
 function MovieDetails() {
+
   const { movieId } = useParams<{ movieId: string }>();
 
   const {
@@ -30,31 +33,22 @@ function MovieDetails() {
     isLoading: isLoadingCredits,
   } = useFetchMovieCredits(movieId as unknown as string);
 
-  if (isLoadingCredits || isLoadingDetails || isLoadingImages) {
-    return <p> ça charge...</p>;
-  }
-  if (isErrorCredits || isErrorDetails ||isErrorImages) {
-    return <p>ça bug att</p>;
-  }
+  if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
+  if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
 
-  let formattedDateString = "0000-00-00";
-
-  if (movie && movie.release_date) {
-    const date = new Date(movie.release_date);
-    const day = date.getDate();
-    const month = new Intl.DateTimeFormat("en-US", { month: "short" }).format(
-      date
-    );
-    const year = date.getFullYear();
-
-    formattedDateString = `${day} ${month}. ${year}`;
-  }
+  const formattedDateString =
+    movie && movie.release_date ?
+      new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric" }).format(new Date(movie.release_date))
+      : "0000-00-00";
 
   return (
     <Main path={movie?.backdrop_path || ""}>
       <Container>
-        <Link to={`/`}>
-          <BackButton>Back OUI</BackButton>
+        <Link to={`/`} style={backLinkStyle}>
+          <BackButton>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            Back
+          </BackButton>
         </Link>
         <Header>
           <Card
@@ -99,9 +93,7 @@ function MovieDetails() {
             {images?.map((image, index) => {
               return (
                 <Card key={index} customStyle={{ width: "1200px" }}>
-                  <PosterImage
-                    src={serviceConfig.apiImagesUrl + `/` + image.file_path}
-                  />
+                  <PosterImage src={serviceConfig.apiImagesUrl + `/` + image.file_path} />
                 </Card>
               );
             })}
@@ -114,9 +106,22 @@ function MovieDetails() {
 
 export default MovieDetails;
 
-const BackButton = styled("p")({
-  transform: "translate(-0.5rem, 0)",
+const BackButton = styled("div")({
+  "&:hover": {
+    transform: "translateX(-.5rem)"
+  },
+  transitionDuration: ".15s",
+  display: "flex",
+  alignSelf: "flex-start",
+  alignItems: "center",
+  gap: ".25rem"
+
 });
+
+const backLinkStyle = {
+  textDecoration: "none",
+  color: "white"
+};
 
 const Main = styled("main")(({ path }: { path: string }) => ({
   backgroundImage: `url("${serviceConfig.apiImagesUrl}${path}")`,

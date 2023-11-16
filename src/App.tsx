@@ -1,35 +1,27 @@
-import { useFetchMoviesQuery } from "./services/useFetchMoviesQuery";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Movies from "./pages/Movies/Movies";
 import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import { ThemeProvider } from "./theme/ThemeProvider";
+import ErrorPage from "./pages/Error/ErrorPage";
 
 function App() {
-  const {
-    data: movies,
-    isError: isErrorMovies,
-    isLoading: isLoadingMovies,
-  } = useFetchMoviesQuery();
-
-  if (isErrorMovies) {
-    return <p>ca bug les movies</p>;
-  }
-  if (isLoadingMovies) {
-    return <p>ca charge les movies</p>;
-  }
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Movies movies={movies || []} />,
+      element: <Movies />,
     },
     {
       path: "/movies",
-      element: <Movies movies={movies || []} />,
+      element: <Movies />,
     },
     {
       path: "/movie/:movieId",
       element: <MovieDetails />,
+    },
+    {
+      path: "*",
+      element: <ErrorPage />,
     },
   ]);
 

@@ -1,27 +1,39 @@
 import { Movie } from '../../interfaces/movie';
+import { useFetchMoviesQuery } from '../../services/useFetchMoviesQuery';
 import { useTheme } from '../../theme/ThemeProvider';
+import ErrorPage from '../Error/ErrorPage';
+import LoadingPage from '../Loading/LoadingPage';
 import MoviesGrid from './MoviesGrid';
 import styled from "@emotion/styled";
 
-interface MoviesGridProps {
-  movies: Movie[];
-}
-
-
-function Movies({ movies }: MoviesGridProps) {
+function Movies() {
   
   const { theme } = useTheme();
+
+  const {
+    data: movies,
+    isError: isErrorMovies,
+    isLoading: isLoadingMovies,
+  } = useFetchMoviesQuery();
+
+  if (isErrorMovies) return <ErrorPage />
+  if (isLoadingMovies) return <LoadingPage />
 
   return (
     <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
       <Header>
         <Title>🎬🍿 Movie library</Title>
-        <Search type="test" placeholder='🔎 Search for movie' />
+        <Search 
+          type="text" 
+          placeholder='🔎 Search for movie' 
+        />
       </Header>
-      <MoviesGrid movies={movies} />
+      <MoviesGrid movies={movies as Movie[]} />
     </Main>
   );
 }
+
+export default Movies;
 
 const Main = styled("main")({
   display: "flex",
@@ -65,4 +77,4 @@ const Search = styled("input")({
   margin: "0",
 });
 
-export default Movies;
+
