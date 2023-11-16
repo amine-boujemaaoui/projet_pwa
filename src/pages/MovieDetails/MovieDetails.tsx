@@ -1,24 +1,41 @@
 import { Link, useParams } from "react-router-dom";
 import styled from "@emotion/styled";
 import { useFetchMovieDetailsQuery } from "../../services/useFetchMovieDetailsQuery";
-import { MovieDetails } from "../../interfaces/movieDetails";
 import serviceConfig from "../../services/servicesConfig";
 import { Card } from "../../design/atoms/Card";
 import { PosterImage } from "../../design/atoms/PosterImage";
-import { useFetchMovieCreditsQuery } from "../../services/useFetchMovieCreditsQuery";
-import { Credit } from "../../interfaces/credit";
+import { useFetchMovieCredits } from "../../services/useFetchMovieCreditsQuery";
 import { CreditCard } from "../../design/molecules/CreditCard";
-import { useTheme } from "../../theme/ThemeProvider";
+import { Genre } from "../../interfaces/genre";
+import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
 
 function MovieDetails() {
-  const { theme } = useTheme();
-
   const { movieId } = useParams<{ movieId: string }>();
 
-  const movie: MovieDetails | null = useFetchMovieDetailsQuery(movieId || "");
-  const credits: Credit[] | null = useFetchMovieCreditsQuery(movieId || "");
+  const {
+    data: images,
+    isError: isErrorImages,
+    isLoading: isLoadingImages,
+  } = useFetchMovieImages(movieId as unknown as string);
 
-  console.log(credits);
+  const {
+    data: movie,
+    isError: isErrorDetails,
+    isLoading: isLoadingDetails,
+  } = useFetchMovieDetailsQuery(movieId as unknown as string);
+
+  const {
+    data: credits,
+    isError: isErrorCredits,
+    isLoading: isLoadingCredits,
+  } = useFetchMovieCredits(movieId as unknown as string);
+
+  if (isLoadingCredits || isLoadingDetails || isLoadingImages) {
+    return <p> ça charge...</p>;
+  }
+  if (isErrorCredits || isErrorDetails ||isErrorImages) {
+    return <p>ça bug att</p>;
+  }
 
   let formattedDateString = "0000-00-00";
 
@@ -54,7 +71,9 @@ function MovieDetails() {
           <TextContainer>
             <MovieTitle>{movie?.original_title}</MovieTitle>
             <Overview>{movie?.overview}</Overview>
-            <Genre>{movie?.genres.map((item) => item.name).join(", ")}</Genre>
+            <Genre>
+              {movie?.genres.map((item: Genre) => item.name).join(", ")}
+            </Genre>
             <ReleaseDate>{formattedDateString}</ReleaseDate>
           </TextContainer>
         </Header>
@@ -77,10 +96,12 @@ function MovieDetails() {
         <ImagesContainer>
           <ImagesTitle>Images</ImagesTitle>
           <ImagesList>
-            {credits?.map((credit, index) => {
+            {images?.map((image, index) => {
               return (
-                <Card key={index} customStyle={{}}>
-                  <PosterImage src={credit.profile_path} />
+                <Card key={index} customStyle={{ width: "1200px" }}>
+                  <PosterImage
+                    src={serviceConfig.apiImagesUrl + `/` + image.file_path}
+                  />
                 </Card>
               );
             })}
@@ -104,7 +125,7 @@ const Main = styled("main")(({ path }: { path: string }) => ({
   minWidth: "100%",
   minHeight: "100vh",
   flexDirection: "column",
-  color: "white"
+  color: "white",
 }));
 
 const Header = styled("div")({
@@ -180,7 +201,7 @@ const CreditsList = styled("div")({
 const CreditsTitle = styled("div")({
   fontSize: "1.875rem",
   lineHeight: "2.25rem",
-})
+});
 
 const ImagesContainer = styled("div")({
   display: "flex",

@@ -1,17 +1,13 @@
-import { useState, useEffect } from "react"
 import fetchService from "./fetchService"
 import { Movie } from "../interfaces/movie"
+import { useQuery } from "react-query";
+
+
+const getMovies = async () => {
+  const movies = await fetchService("movie/now_playing");
+  return movies.results;
+};
 
 export const useFetchMoviesQuery = () => {
-    const [movies, setMovies] = useState<Movie[] | null>([])
-    useEffect(() => {
-        async function getMovies() {
-            const movies = await fetchService("movie/now_playing")
-            setMovies(movies.results)
-        }
-        getMovies()
-    }, [])
-
-    return { movies }
-
-}
+  return useQuery<Movie[]>(["movies"], async () => getMovies());
+};

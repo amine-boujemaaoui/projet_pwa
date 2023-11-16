@@ -1,17 +1,16 @@
-import { useState, useEffect } from "react"
+
 import fetchService from "./fetchService"
-import { MovieDetails } from "../interfaces/movieDetails"
+import { MovieDetails } from "../interfaces/movieDetailsInterface"
+import { useQuery } from "react-query";
 
-export const useFetchMovieDetailsQuery = (id: string) => {
-    const [movie, setMovie] = useState<MovieDetails | null>(null)
-    useEffect(() => {
-        async function getMovieDetails() {
-            const movie = await fetchService(`movie/${id}`)
-            setMovie(movie)
-        }
-        getMovieDetails()
-    }, [])
-    
-    return movie 
 
-}
+const getMovieDetails = async (id : string) => {
+  const movie = await fetchService(`movie/${id}`);
+  return movie;
+};
+
+export const useFetchMovieDetailsQuery = (movieId: string) => {
+  return useQuery<MovieDetails>(["movieDetails", movieId], async () =>
+    getMovieDetails(movieId)
+  );
+};
