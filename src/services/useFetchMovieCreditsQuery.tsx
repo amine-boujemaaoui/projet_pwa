@@ -1,20 +1,19 @@
-import { useState, useEffect } from "react"
+
 import fetchService from "./fetchService"
 import { Credit } from "../interfaces/credit";
+import { useQuery } from "react-query";
+
 
 
 export const useFetchMovieCreditsQuery = (id: string) => {
-  const [credits, setCredits] = useState<Credit[] | null>(null);
-  useEffect(() => {
-    async function getMovieCredits() {
-        const credits = await fetchService(`/movie/${id}/credits`);
-        let creditsreturn: Credit[] = credits.cast
-          .slice(0, 10)
-          .concat(credits.crew.slice(0, 10));
-      setCredits(creditsreturn);
-    }
-    getMovieCredits();
-  }, []);
+  const response = useQuery("credits", getMovieCredits);
 
-  return credits;
+
+  async function getMovieCredits(id : string) {
+    const credits = await fetchService(`/movie/${id}/credits`);
+    let creditsreturn: Credit[] = credits.cast
+      .slice(0, 10)
+      .concat(credits.crew.slice(0, 10));
+    return creditsreturn
+  }
 };

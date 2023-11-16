@@ -16,7 +16,13 @@ export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
         alt={`${id}`}
       />
       <Text>{name}</Text>
-      <Text>{character}</Text>
+      <Text
+        customStyle={{
+          color: "stone",
+        }}
+      >
+        {character}
+      </Text>
     </Card>
   );
 };

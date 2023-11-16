@@ -1,4 +1,5 @@
 import servicesConfig from "./servicesConfig";
+import { useQuery } from "react-query";
 
 const fetchService = async (path? : string) => {
     try {
