@@ -5,12 +5,18 @@ import { MovieDetails } from '../../interfaces/movieDetails';
 import serviceConfig from '../../services/servicesConfig';
 import { Card } from '../../design/atoms/Card';
 import { PosterImage } from '../../design/atoms/PosterImage';
+import { useFetchMovieCreditsQuery } from '../../services/useFetchMovieCreditsQuery';
+import { Credit } from '../../interfaces/credit';
 
 function MovieDetails() {
 
     const { movieId } = useParams<{ movieId: string }>();
 
     const movie: MovieDetails | null = useFetchMovieDetailsQuery(movieId || '');
+    const credits: Credit[] | null = useFetchMovieCreditsQuery(movieId || "");
+
+    console.log(credits);
+    
 
     let formattedDateString = "0000-00-00";
 
