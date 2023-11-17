@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import { Movie } from '../../interfaces/movie';
 import { useFetchMoviesQuery } from '../../services/useFetchMoviesQuery';
 import { useTheme } from '../../theme/ThemeProvider';
@@ -5,27 +6,50 @@ import ErrorPage from '../Error/ErrorPage';
 import LoadingPage from '../Loading/LoadingPage';
 import MoviesGrid from './MoviesGrid';
 import styled from "@emotion/styled";
+import { useFetchSearchMovies } from '../../services/useFetchSearchMovies';
 
 function Movies() {
-  
   const { theme } = useTheme();
+  const [input, setInput] = useState("");
+  const latestInput = useRef(input);
+  const { data: movies, isLoading, isError, refetch } = useFetchSearchMovies(latestInput.current);
 
-  const {
-    data: movies,
-    isError: isErrorMovies,
-    isLoading: isLoadingMovies,
-  } = useFetchMoviesQuery();
+  useEffect(() => {
+    latestInput.current = input.trim();
+    if (latestInput.current !== "") {
+      refetch();
+    }
+  }, [input, refetch]);
 
-  if (isErrorMovies) return <ErrorPage />
-  if (isLoadingMovies) return <LoadingPage />
+  const handleChange = (value: string) => {
+    setInput(value);
+  };
+
+  if (isError) return <ErrorPage />;
+  if (isLoading) return (
+    <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+      <Header>
+        <Title>🎬🍿 Movie library</Title>
+        <Search
+          type="text"
+          placeholder='🔎 Search for movie'
+          onChange={(e) => handleChange(e.target.value)}
+          value={input}
+        />
+      </Header>
+      <LoadingPage />
+    </Main>
+  
+    );
 
   return (
     <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
       <Header>
         <Title>🎬🍿 Movie library</Title>
-        <Search 
-          type="text" 
-          placeholder='🔎 Search for movie' 
+        <Search
+          type="text"
+          placeholder='🔎 Search for movie'
+          onChange={(e) => handleChange(e.target.value)}
         />
       </Header>
       <MoviesGrid movies={movies as Movie[]} />

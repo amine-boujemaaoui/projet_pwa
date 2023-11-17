@@ -1,7 +1,6 @@
-import fetchService from "./fetchService"
-import { Movie } from "../interfaces/movie"
+import fetchService from "./fetchService";
+import { Movie } from "../interfaces/movie";
 import { useQuery } from "react-query";
-
 
 const getSearchMovies = async (query: string) => {
   const movies = await fetchService(`search/movie?query=${query}`);
@@ -9,5 +8,5 @@ const getSearchMovies = async (query: string) => {
 };
 
 export const useFetchSearchMovies = (query: string) => {
-  return useQuery<Movie[]>(["moviesSearch"], async () => getSearchMovies(query));
+  return useQuery<Movie[]>(['moviesSearch', query], async () => getSearchMovies(query));
 };

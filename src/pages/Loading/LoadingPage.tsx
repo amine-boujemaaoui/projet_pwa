@@ -23,7 +23,6 @@ const Main = styled("main")({
     justifyContent: "center",
     alignItems: "center",
     minWidth: "100%",
-    minHeight: "100vh",
     padding: "3rem",
 });
 
