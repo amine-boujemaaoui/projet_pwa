@@ -15,7 +15,7 @@ export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
         src={`${serviceConfig.apiImagesUrl}${profile_path}`}
         alt={`${id}`}
       />
-      <Text>{name}</Text>
+      <Text customStyle={{}}>{name}</Text>
       <Text
         customStyle={{
           color: "stone",
@@ -27,6 +27,6 @@ export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
   );
 };
 
-const Text = styled("p")({
+const Text = styled("p")(({ customStyle }: { customStyle: object }) => ({ 
     margin: "0"
-})
+}))

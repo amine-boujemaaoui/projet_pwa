@@ -1,39 +1,47 @@
+import { useEffect, useRef, useState } from 'react';
 import { Movie } from '../../interfaces/movie';
-import { useFetchMoviesQuery } from '../../services/useFetchMoviesQuery';
 import { useTheme } from '../../theme/ThemeProvider';
 import ErrorPage from '../Error/ErrorPage';
 import LoadingPage from '../Loading/LoadingPage';
 import MoviesGrid from './MoviesGrid';
 import styled from "@emotion/styled";
-import { useNavigate } from 'react-router-dom';
+import { useFetchSearchMovies } from '../../services/useFetchSearchMovies';
 
+function MoviesSearch() {
 
-function Movies() {
   const { theme } = useTheme();
+  const [input, setInput] = useState("");
+  const latestInput = useRef(input);
+  const { data: movies, isLoading, isError, refetch } = useFetchSearchMovies(latestInput.current);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const { data: movies, isError, isLoading } = useFetchMoviesQuery()
-  
-  const navigate = useNavigate();
+  useEffect(() => { if (inputRef.current) inputRef.current.focus() });
+  useEffect(() => {
+    latestInput.current = input.trim();
+    if (latestInput.current !== "") refetch();
+  }, [input, refetch]);
 
-  const handleInputFocus = () => {
-    navigate('movies/search');
-  };
+  const handleChange = (value: string) => { setInput(value); };
 
   if (isError) return <ErrorPage />;
-  if (isLoading) return (
-    <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-      <Header>
-        <Title>🎬🍿 Movie library</Title>
-        <Search
-          type="text"
-          placeholder='🔎 Search for movie'
-          onFocus={handleInputFocus}
-        />
-      </Header>
-      <LoadingPage />
-    </Main>
-  
+
+  if (isLoading) {
+    return (
+      <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+        <Header>
+          <Title>🎬🍿 Movie library</Title>
+          <Search
+            type="text"
+            placeholder='🔎 Search for movie'
+            onChange={(e) => handleChange(e.target.value)}
+            value={input}
+            ref={inputRef}
+          />
+        </Header>
+        <LoadingPage />
+      </Main>
     );
+  }
 
   return (
     <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
@@ -42,7 +50,7 @@ function Movies() {
         <Search
           type="text"
           placeholder='🔎 Search for movie'
-          onFocus={handleInputFocus}
+          onChange={(e) => handleChange(e.target.value)}
         />
       </Header>
       <MoviesGrid movies={movies as Movie[]} />
@@ -50,7 +58,7 @@ function Movies() {
   );
 }
 
-export default Movies;
+export default MoviesSearch;
 
 const Main = styled("main")({
   display: "flex",
@@ -93,6 +101,5 @@ const Search = styled("input")({
   },
   margin: "0",
 });
-
 
 

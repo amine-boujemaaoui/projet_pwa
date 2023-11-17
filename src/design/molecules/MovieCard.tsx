@@ -7,7 +7,7 @@ import { Movie } from "../../interfaces/movie";
 export const MovieCard = ({ id, poster_path }: Movie) => {
 
     return (
-        <Link to={`movie/${id}`}>
+        <Link to={`/movie/${id}`}>
             <Card customStyle={{
                 "&:hover": {
                     transform: "scale(1.05)"

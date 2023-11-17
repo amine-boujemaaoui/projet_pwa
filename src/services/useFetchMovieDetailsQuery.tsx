@@ -1,6 +1,6 @@
 
 import fetchService from "./fetchService"
-import { MovieDetails } from "../interfaces/movieDetailsInterface"
+import { MovieDetails } from "../interfaces/movieDetails"
 import { useQuery } from "react-query";
 
 
