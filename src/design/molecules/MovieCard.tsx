@@ -1,30 +1,26 @@
 import { Card } from "../atoms/Card";
-import styled from "@emotion/styled";
+import { Link } from "react-router-dom";
+import  serviceConfig  from '../../services/servicesConfig'
+import { PosterImage } from "../atoms/PosterImage";
+import { Movie } from "../../interfaces/movie";
 
-interface MovieCardProps {
-    id: number;
-    poster_path: string;
-}
-
-export const MovieCard = ({ id, poster_path }: MovieCardProps) => {
+export const MovieCard = ({ id, poster_path }: Movie) => {
 
     return (
-        <Card customStyle={{
-            "&:hover": {
-                transform: "scale(1.1)"
-            },
-            transition: "all 0.2s ease-out",
-            height: "500px"
-        }}>
-            <PosterImage src={`https://image.tmdb.org/t/p/original${poster_path}`} alt={`${id}`} />
-        </Card>
+        <Link to={`movie/${id}`}>
+            <Card customStyle={{
+                "&:hover": {
+                    transform: "scale(1.05)"
+                },
+                transition: "all 0.2s ease-out",
+                cursor: "pointer",
+                boxShadow: "0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1)"
+            }}>
+                <PosterImage src={`${serviceConfig.apiImagesUrl}${poster_path}`} alt={`${id}`} />
+            </Card>
+        </Link>
     )
 };
-
-const PosterImage = styled("img")({
-    width: "100%",
-});
-
 
 
 

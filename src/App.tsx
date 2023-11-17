@@ -1,26 +1,35 @@
-import { useFetchMoviesQuery } from './services/useFetchMoviesQuery';
-import { Routes, Route } from "react-router-dom";
-
-import { Layout } from './design/ui/Layout'
-import Movies from './pages/Movies/Movies'
-import MovieDetails from './pages/MovieDetails/MovieDetails';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Movies from "./pages/Movies/Movies";
+import MovieDetails from "./pages/MovieDetails/MovieDetails";
+import { ThemeProvider } from "./theme/ThemeProvider";
+import ErrorPage from "./pages/Error/ErrorPage";
 
 function App() {
 
-  const {movies} = useFetchMoviesQuery()
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Movies />,
+    },
+    {
+      path: "/movies",
+      element: <Movies />,
+    },
+    {
+      path: "/movie/:movieId",
+      element: <MovieDetails />,
+    },
+    {
+      path: "*",
+      element: <ErrorPage />,
+    },
+  ]);
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Movies movies={movies} />} />
-          <Route path="movie/:movieId" element={<MovieDetails />} />
-          <Route path="*" element={<Layout />} />
-        </Route>
-      </Routes>
-      <Movies movies={movies} />
-    </>
-  )
+    <ThemeProvider>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  );
 }
 
-export default App
+export default App;
