@@ -12,6 +12,7 @@ import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
 import { LeftArrow } from "../../design/atoms/leftArrow";
 import noImage from "/noImage.jpg?url"
+import { Credit } from "../../interfaces/credits";
 
 function MovieDetails() {
 
@@ -35,6 +36,15 @@ function MovieDetails() {
     isLoading: isLoadingCredits,
   } = useFetchMovieCredits(movieId as unknown as string);
 
+  const creditsCast = credits?.cast.slice(0, 10);
+  const creditsCrew = credits?.crew.filter(
+    (credit) =>
+      credit.job === "Director" ||
+      credit.job === "Original Music Composer"
+  );
+  const creditsFiltered: Credit[] = [...(creditsCast || []), ...(creditsCrew || [])];
+  
+
   if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
   if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
 
@@ -42,6 +52,8 @@ function MovieDetails() {
     movie && movie.release_date ?
       new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric" }).format(new Date(movie.release_date))
       : "0000-00-00";
+  
+  
 
   return (
     <Main
@@ -76,7 +88,7 @@ function MovieDetails() {
         <CreditsContainer>
           <CreditsTitle>Credits</CreditsTitle>
           <CreditsList>
-            {credits?.map((credit, index) => {
+            {creditsFiltered?.map((credit, index) => {
               return (
                 <CreditCard
                   key={index}
@@ -84,6 +96,7 @@ function MovieDetails() {
                   character={credit.character}
                   profile_path={credit.profile_path}
                   id={credit.id}
+                  job={credit.job}
                 />
               );
             })}
@@ -132,10 +145,12 @@ const Header = styled("div")({
   display: "flex",
   flexWrap: "wrap",
   gap: "1.5rem",
-  alignItems: "flex-end",
-  "@media (min-width: 600px)": {
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  "@media (min-width: 640px)": {
     flexDirection: "row",
-    justifyContent: "center",
+    alignItems: "flex-end",
   },
 });
 

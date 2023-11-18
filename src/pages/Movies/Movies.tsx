@@ -106,13 +106,14 @@ const Search = styled("input")({
   borderRadius: "50px",
   backgroundColor: "rgb(55,65,81)",
   fontSize: "100%",
+  minWidth: "100%",
   "@media (min-width: 600px)": {
-    minWidth: "20rem",
+    minWidth: "20rem !important",
   },
   border: "none",
   color: "#fff",
   "&::placeholder": {
-    color: "white",
+    color: "rgb(174, 174, 174)",
   },
   margin: "0",
 });

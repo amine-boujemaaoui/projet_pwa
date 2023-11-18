@@ -1,11 +1,11 @@
 import { Card } from "../atoms/Card";
 import  serviceConfig  from '../../services/servicesConfig'
 import { PosterImage } from "../atoms/PosterImage";
-import { Credit } from "../../interfaces/credit";
+import { Credit } from "../../interfaces/credits";
 import styled from "@emotion/styled";
 import noCreditImage from "../../../public/noCreditImage.jpg"
 
-export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
+export const CreditCard = ({ id, profile_path, name, character, job}: Credit) => {
   return (
     <Card
       customStyle={{
@@ -22,7 +22,7 @@ export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
           color: "stone",
         }}
       >
-        {character}
+        {character || job}
       </Text>
     </Card>
   );
