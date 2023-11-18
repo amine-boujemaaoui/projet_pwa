@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import  serviceConfig  from '../../services/servicesConfig'
 import { PosterImage } from "../atoms/PosterImage";
 import { Movie } from "../../interfaces/movie";
+import noImage from "../../../public/noImage.jpg"
 
 export const MovieCard = ({ id, poster_path }: Movie) => {
 
@@ -16,7 +17,7 @@ export const MovieCard = ({ id, poster_path }: Movie) => {
                 cursor: "pointer",
                 boxShadow: "0 10px 15px -3px rgb(0 0 0 / .1), 0 4px 6px -4px rgb(0 0 0 / .1)"
             }}>
-                <PosterImage src={`${serviceConfig.apiImagesUrl}${poster_path}`} alt={`${id}`} />
+                <PosterImage src={(poster_path != null) ? `${serviceConfig.apiImagesUrl}${poster_path}` : noImage} />
             </Card>
         </Link>
     )

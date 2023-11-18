@@ -3,6 +3,7 @@ import  serviceConfig  from '../../services/servicesConfig'
 import { PosterImage } from "../atoms/PosterImage";
 import { Credit } from "../../interfaces/credit";
 import styled from "@emotion/styled";
+import noCreditImage from "../../../public/noCreditImage.jpg"
 
 export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
   return (
@@ -12,7 +13,7 @@ export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
       }}
     >
       <PosterImage
-        src={`${serviceConfig.apiImagesUrl}${profile_path}`}
+        src={(profile_path != null) ? `${serviceConfig.apiImagesUrl}${profile_path}` : noCreditImage}
         alt={`${id}`}
       />
       <Text customStyle={{}}>{name}</Text>

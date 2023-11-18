@@ -30,7 +30,7 @@ function Movies() {
   useEffect(() => {
     latestInput.current = input.trim();
     if (latestInput.current !== "") refetch();
-  }, [input, refetch]);
+  }, [input]);
 
   const handleChange = (value: string) => { setInput(value); };
 

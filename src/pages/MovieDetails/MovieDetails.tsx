@@ -11,6 +11,7 @@ import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
 import { LeftArrow } from "../../design/atoms/leftArrow";
+import noImage from "/noImage.jpg?url"
 
 function MovieDetails() {
 
@@ -43,7 +44,10 @@ function MovieDetails() {
       : "0000-00-00";
 
   return (
-    <Main path={movie?.backdrop_path || ""}>
+    <Main
+      path={movie?.backdrop_path || ""}
+      className={`${movie?.backdrop_path == null ? 'dark-theme' : ""}`}
+    >
       <Container>
         <Link to={`/`} style={backLinkStyle} className={"hover"}>
           <LeftArrow /> Back
@@ -56,12 +60,12 @@ function MovieDetails() {
             }}
           >
             <PosterImage
-              src={serviceConfig.apiImagesUrl + `/` + movie?.poster_path}
+              src= {(movie?.poster_path != null) ? serviceConfig.apiImagesUrl + `/` + movie?.poster_path : noImage}
               alt={`${movie?.id}` || ""}
             />
           </Card>
           <TextContainer>
-            <MovieTitle>{movie?.original_title}</MovieTitle>
+            <MovieTitle>{movie?.title}</MovieTitle>
             <Overview>{movie?.overview}</Overview>
             <Genre>
               {movie?.genres.map((item: Genre) => item.name).join(", ")}
@@ -91,7 +95,7 @@ function MovieDetails() {
             {images?.map((image, index) => {
               return (
                 <Card key={index} customStyle={{ width: "1200px" }}>
-                  <PosterImage src={serviceConfig.apiImagesUrl + `/` + image.file_path} />
+                  <PosterImage src={(image.file_path != null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />
                 </Card>
               );
             })}
@@ -115,14 +119,14 @@ const backLinkStyle = {
 };
 
 const Main = styled("main")(({ path }: { path: string }) => ({
-  backgroundImage: `url("${serviceConfig.apiImagesUrl}${path}")`,
+  backgroundImage: `url("${(path != null) ? serviceConfig.apiImagesUrl+path : "none" }")`,
   display: "flex",
   backgroundSize: "cover",
   minWidth: "100%",
   minHeight: "100vh",
   flexDirection: "column",
-  color: "white",
 }));
+
 
 const Header = styled("div")({
   display: "flex",
@@ -190,7 +194,7 @@ const CreditsList = styled("div")({
   flexDirection: "row",
   width: "auto",
   flex: "1",
-  overflowX: "scroll",
+  overflowX: "auto",
   gap: "1.5rem",
 });
 
@@ -212,7 +216,7 @@ const ImagesList = styled("div")({
   flexDirection: "row",
   width: "auto",
   flex: "1",
-  overflowX: "scroll",
+  overflowX: "auto",
   gap: "1.5rem",
 });
 
