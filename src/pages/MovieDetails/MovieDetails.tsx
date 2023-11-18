@@ -8,8 +8,8 @@ import { useFetchMovieCredits } from "../../services/useFetchMovieCreditsQuery";
 import { CreditCard } from "../../design/molecules/CreditCard";
 import { Genre } from "../../interfaces/genre";
 import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
-import ErrorPage from "../Error/ErrorPage";
-import LoadingPage from "../Loading/LoadingPage";
+import ErrorPage from "../ErrorPage";
+import LoadingPage from "../LoadingPage";
 
 function MovieDetails() {
 

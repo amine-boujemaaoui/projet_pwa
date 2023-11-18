@@ -1,4 +1,4 @@
-import { useTheme } from '../../theme/ThemeProvider';
+import { useTheme } from '../theme/ThemeProvider';
 import styled from "@emotion/styled";
 
 function ErrorPage() {

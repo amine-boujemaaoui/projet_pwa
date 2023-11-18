@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { useTheme } from "../../theme/ThemeProvider";
+import { useTheme } from "../theme/ThemeProvider";
 
 function ErrorPage() {
 

@@ -2,8 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Movies from "./pages/Movies/Movies";
 import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import { ThemeProvider } from "./theme/ThemeProvider";
-import ErrorPage from "./pages/Error/ErrorPage";
-import MoviesSearch from "./pages/Movies/MoviesSearch";
+import ErrorPage from "./pages/ErrorPage";
 
 function App() {
 
@@ -19,10 +18,6 @@ function App() {
     {
       path: "/movie/:movieId",
       element: <MovieDetails />,
-    },
-    {
-      path: "/movies/search",
-      element: <MoviesSearch />,
     },
     {
       path: "*",
