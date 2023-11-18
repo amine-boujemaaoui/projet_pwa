@@ -23,7 +23,7 @@ function App() {
       path: "*",
       element: <ErrorPage />,
     },
-  ]);
+  ], { basename: "/projet_pwa" });
 
   return (
     <ThemeProvider>
