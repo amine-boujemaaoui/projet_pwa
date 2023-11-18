@@ -10,6 +10,7 @@ import { Genre } from "../../interfaces/genre";
 import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
+import { LeftArrow } from "../../design/atoms/leftArrow";
 
 function MovieDetails() {
 
@@ -44,11 +45,8 @@ function MovieDetails() {
   return (
     <Main path={movie?.backdrop_path || ""}>
       <Container>
-        <Link to={`/`} style={backLinkStyle}>
-          <BackButton>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-            Back
-          </BackButton>
+        <Link to={`/`} style={backLinkStyle} className={"hover"}>
+          <LeftArrow /> Back
         </Link>
         <Header>
           <Card
@@ -106,21 +104,14 @@ function MovieDetails() {
 
 export default MovieDetails;
 
-const BackButton = styled("div")({
-  "&:hover": {
-    transform: "translateX(-.5rem)"
-  },
+const backLinkStyle = {
+  textDecoration: "none",
+  color: "white",
   transitionDuration: ".15s",
   display: "flex",
   alignSelf: "flex-start",
   alignItems: "center",
   gap: ".25rem"
-
-});
-
-const backLinkStyle = {
-  textDecoration: "none",
-  color: "white"
 };
 
 const Main = styled("main")(({ path }: { path: string }) => ({
@@ -136,7 +127,7 @@ const Main = styled("main")(({ path }: { path: string }) => ({
 const Header = styled("div")({
   display: "flex",
   flexWrap: "wrap",
-  gap: "1rem",
+  gap: "1.5rem",
   alignItems: "flex-end",
   "@media (min-width: 600px)": {
     flexDirection: "row",

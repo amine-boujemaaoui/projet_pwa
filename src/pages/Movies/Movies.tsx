@@ -13,11 +13,20 @@ function Movies() {
   const { theme } = useTheme();
   const [input, setInput] = useState("");
   const latestInput = useRef(input);
-  const { data: MoviesSearch, isLoading: isLoadingSearch, isError: isErrorSearch, refetch } = useFetchSearchMovies(latestInput.current);
-  const { data: moviesList, isError: isErrorList, isLoading: isLoadingList } = useFetchMoviesQuery()
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => { if (inputRef.current && input != "") inputRef.current.focus() });
+  const {
+    data: MoviesSearch,
+    isLoading: isLoadingSearch,
+    isError: isErrorSearch,
+    refetch
+  } = useFetchSearchMovies(latestInput.current);
+
+  const {
+    data: moviesList,
+    isError: isErrorList,
+    isLoading: isLoadingList
+  } = useFetchMoviesQuery()
+  
   useEffect(() => {
     latestInput.current = input.trim();
     if (latestInput.current !== "") refetch();
@@ -37,7 +46,6 @@ function Movies() {
             placeholder='🔎 Search for movie'
             onChange={(e) => handleChange(e.target.value)}
             value={input}
-            ref={inputRef}
           />
         </Header>
         <LoadingPage />
@@ -47,38 +55,23 @@ function Movies() {
 
   return (
     <>
-      {(input == "") ?
-        <MovieList movies={moviesList!} theme={theme} handleChange={(e) => handleChange(e)} input={input} inputRef={inputRef} /> :
-        <MovieList movies={MoviesSearch!} theme={theme} handleChange={(e) => handleChange(e)} input={input} inputRef={inputRef} />}
+      <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+        <Header>
+          <Title>🎬🍿 Movie library</Title>
+          <Search
+            type="text"
+            placeholder='🔎 Search for movie'
+            onChange={(e) => handleChange(e.target.value)}
+            value={input}
+          />
+        </Header>
+        {(input == "") ?
+          <MoviesGrid movies={moviesList as Movie[]} /> :
+          <MoviesGrid movies={MoviesSearch as Movie[]} />}
+      </Main>
     </>
   );
 }
-
-interface MovieListProps {
-  movies: Movie[],
-  theme: string,
-  handleChange: (e: any) => void,
-  input: string,
-  inputRef: React.MutableRefObject<HTMLInputElement | null>
-}
-
-const MovieList = ({ movies, theme, handleChange, input, inputRef }: MovieListProps) => {
-  return (
-    <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-      <Header>
-        <Title>🎬🍿 Movie library</Title>
-        <Search
-          type="text"
-          placeholder='🔎 Search for movie'
-          onChange={(e) => handleChange(e.target.value)}
-          value={input}
-          ref={inputRef}
-        />
-      </Header>
-      <MoviesGrid movies={movies as Movie[]} />
-    </Main>
-  );
-};
 
 export default Movies;
 

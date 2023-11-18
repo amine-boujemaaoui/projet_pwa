@@ -27,3 +27,7 @@ body {
   border-style: solid;
   border-color: #e5e7eb;
 }
+
+.hover:hover{
+  transform: translateX(-.5rem)
+}

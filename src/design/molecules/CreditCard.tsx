@@ -28,5 +28,6 @@ export const CreditCard = ({ id, profile_path, name, character }: Credit) => {
 };
 
 const Text = styled("p")(({ customStyle }: { customStyle: object }) => ({ 
-    margin: "0"
+  margin: "0",
+  ...customStyle
 }))
