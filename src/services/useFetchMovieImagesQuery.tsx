@@ -1,9 +1,10 @@
 import fetchService from "./fetchService"
 import { useQuery } from "react-query";
+import { apiEndpoints } from "./servicesConfig";
 
 
 const getMovieImages = async (id: string) => {
-  const images = await fetchService(`/movie/${id}/images`);
+  const images = await fetchService(apiEndpoints.MOVIE_IMAGES(id));
   let imagesreturn: { file_path: string }[] = images.backdrops;
   return imagesreturn
 };

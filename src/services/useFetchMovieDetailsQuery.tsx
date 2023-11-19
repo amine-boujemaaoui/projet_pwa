@@ -2,10 +2,11 @@
 import fetchService from "./fetchService"
 import { MovieDetails } from "../interfaces/movieDetails"
 import { useQuery } from "react-query";
+import { apiEndpoints } from "./servicesConfig";
 
 
 const getMovieDetails = async (id : string) => {
-  const movie = await fetchService(`movie/${id}`);
+  const movie = await fetchService(apiEndpoints.MOVIE_DETAILS(id));
   return movie;
 };
 

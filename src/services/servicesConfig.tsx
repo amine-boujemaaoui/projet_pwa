@@ -5,3 +5,19 @@ const serviceConfig = {
 };
 
 export default serviceConfig;
+
+type ApiEndpoints = {
+    MOVIE_CREDITS: (id: string) => string;
+    MOVIE_DETAILS: (id: string) => string;
+    MOVIE_IMAGES:  (id: string) => string;
+    MOVIE_SEARCH:  (query: string) => string;
+    MOVIE_NOW_PLAYING: string;
+};
+
+export const apiEndpoints: ApiEndpoints = {
+    MOVIE_CREDITS: (id) => `movie/${id}/credits`,
+    MOVIE_DETAILS: (id) => `movie/${id}`,
+    MOVIE_IMAGES:  (id) => `movie/${id}/images`,
+    MOVIE_SEARCH:  (query) => `search/movie?query=${query}`,
+    MOVIE_NOW_PLAYING: "movie/now_playing",
+};

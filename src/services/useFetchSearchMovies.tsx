@@ -1,9 +1,10 @@
 import fetchService from "./fetchService";
 import { Movie } from "../interfaces/movie";
 import { useQuery } from "react-query";
+import { apiEndpoints } from "./servicesConfig";
 
 const getSearchMovies = async (query: string) => {
-  const movies = await fetchService(`search/movie?query=${query}`);
+  const movies = await fetchService(apiEndpoints.MOVIE_SEARCH(query));
   return movies.results;
 };
 

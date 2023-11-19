@@ -1,4 +1,5 @@
 import servicesConfig from "./servicesConfig";
+
 const fetchService = async (path? : string) => {
     try {
         const response = await fetch(`${servicesConfig.apiUrl}/${path}`, {
