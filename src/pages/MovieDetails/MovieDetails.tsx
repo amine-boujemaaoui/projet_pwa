@@ -13,6 +13,7 @@ import LoadingPage from "../LoadingPage";
 import { LeftArrow } from "../../design/atoms/leftArrow";
 import noImage from "/noImage.jpg?url"
 import { Credit } from "../../interfaces/credits";
+import { MovieImage } from "../../interfaces/movieImage";
 
 function MovieDetails() {
 
@@ -36,17 +37,20 @@ function MovieDetails() {
     isLoading: isLoadingCredits,
   } = useFetchMovieCredits(movieId as unknown as string);
 
+  if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
+  if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
+
   const creditsCast = credits?.cast.slice(0, 10);
   const creditsCrew = credits?.crew.filter(
     (credit) =>
       credit.job === "Director" ||
       credit.job === "Original Music Composer"
   );
-  const creditsFiltered: Credit[] = [...(creditsCast || []), ...(creditsCrew || [])];
   
+  const creditsFiltered: Credit[] = [...(creditsCast || []), ...(creditsCrew || [])];
+  const imagesFiltered: MovieImage[] = images!.filter(image => image.iso_639_1 === null);
 
-  if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
-  if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
+  console.log(imagesFiltered);
 
   const formattedDateString =
     movie && movie.release_date ?
@@ -105,7 +109,7 @@ function MovieDetails() {
         <ImagesContainer>
           <ImagesTitle>Images</ImagesTitle>
           <ImagesList>
-            {images?.map((image, index) => {
+            {imagesFiltered.map((image, index) => {
               return (
                 <Card key={index} customStyle={{ width: "1200px" }}>
                   <PosterImage src={(image.file_path != null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />

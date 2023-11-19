@@ -1,6 +1,7 @@
 import fetchService from "./fetchService"
 import { useQuery } from "react-query";
 import { apiEndpoints } from "./servicesConfig";
+import { MovieImage } from "../interfaces/movieImage";
 
 
 const getMovieImages = async (id: string) => {
@@ -8,10 +9,10 @@ const getMovieImages = async (id: string) => {
     apiEndpoints.MOVIE_IMAGES(id),
     "Error on fetch movie images by id"
   );
-  let imagesreturn: { file_path: string }[] = images.backdrops;
+  let imagesreturn: MovieImage[] = images.backdrops;
   return imagesreturn
 };
 
 export const useFetchMovieImages = (movieId:string) => {
-  return useQuery<{file_path: string}[]>(["movieImages",movieId],async ()=>getMovieImages(movieId))
+  return useQuery<MovieImage[]>(["movieImages",movieId],async ()=>getMovieImages(movieId))
 }
