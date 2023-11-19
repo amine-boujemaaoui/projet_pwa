@@ -16,13 +16,12 @@ export const CreditCard = ({ id, profile_path, name, character, job}: Credit) =>
         src={(profile_path != null) ? `${serviceConfig.apiImagesUrl}${profile_path}` : noCreditImage}
         alt={`${id}`}
       />
-      <Text customStyle={{}}>{name}</Text>
-      <Text
-        customStyle={{
-          color: "stone",
-        }}
-      >
-        {character || job}
+      <Text customStyle={{
+        color: "#fff"
+      }}>{name}</Text>
+      <Text customStyle={{
+          color: "#D6D3D1"
+      }}>{character || job}
       </Text>
     </Card>
   );
