@@ -5,7 +5,10 @@ import { apiEndpoints } from "./servicesConfig";
 
 
 const getMovies = async () => {
-  const movies = await fetchService(apiEndpoints.MOVIE_NOW_PLAYING);
+  const movies = await fetchService(
+    apiEndpoints.MOVIE_NOW_PLAYING,
+    "Error on fetch movies now playing"
+  );
   return movies.results;
 };
 

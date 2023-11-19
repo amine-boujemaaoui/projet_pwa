@@ -1,6 +1,6 @@
 import servicesConfig from "./servicesConfig";
 
-const fetchService = async (path? : string) => {
+const fetchService = async (path : string, errorMessage: string) => {
     try {
         const response = await fetch(`${servicesConfig.apiUrl}/${path}`, {
             headers: {
@@ -9,16 +9,12 @@ const fetchService = async (path? : string) => {
             },
         });
 
-        if (!response.ok) {
-            throw new Error(`Erreur HTTP! Statut : ${response.status}`);
-        }
+        if (!response.ok) { throw new Error(`Erreur HTTP! Statut : ${response.status}`); }
 
         const data = await response.json();
         return data;
-    } catch (error) {
-        console.error('Erreur lors de la récupération des films :', error);
-        throw new Error('Erreur lors de la récupération des films');
-    }
+
+    } catch (error) { throw new Error(errorMessage); }
 };
 
 export default fetchService;

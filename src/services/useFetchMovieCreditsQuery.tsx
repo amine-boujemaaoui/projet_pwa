@@ -5,12 +5,10 @@ import { apiEndpoints } from "./servicesConfig";
 
 
 const getMovieCredits = async (id: string) => {
-  const credits = await fetchService(apiEndpoints.MOVIE_CREDITS(id));
-  /*
-  let creditsreturn: Credit[] = credits.cast
-    .slice(0, 10)
-    .concat(credits.crew.slice(0, 10));
-    */
+  const credits = await fetchService(
+    apiEndpoints.MOVIE_CREDITS(id),
+    "Error on fetch movie credits by id"
+  );
   return credits
 };
 

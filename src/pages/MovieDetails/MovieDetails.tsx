@@ -58,7 +58,7 @@ function MovieDetails() {
   return (
     <Main
       path={movie?.backdrop_path || ""}
-      className={`${movie?.backdrop_path == null ? 'dark-theme' : ""}`}
+      className={`${movie?.backdrop_path === null ? 'dark-theme' : ""}`}
     >
       <Container>
         <Link to={`/`} style={backLinkStyle} className={"hover"}>

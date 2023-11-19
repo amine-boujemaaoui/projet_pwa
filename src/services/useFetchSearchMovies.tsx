@@ -4,7 +4,10 @@ import { useQuery } from "react-query";
 import { apiEndpoints } from "./servicesConfig";
 
 const getSearchMovies = async (query: string) => {
-  const movies = await fetchService(apiEndpoints.MOVIE_SEARCH(query));
+  const movies = await fetchService(
+    apiEndpoints.MOVIE_SEARCH(query),
+    "Error on fetch movie search by query"
+  );
   return movies.results;
 };
 

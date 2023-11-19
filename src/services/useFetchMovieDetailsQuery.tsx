@@ -6,7 +6,10 @@ import { apiEndpoints } from "./servicesConfig";
 
 
 const getMovieDetails = async (id : string) => {
-  const movie = await fetchService(apiEndpoints.MOVIE_DETAILS(id));
+  const movie = await fetchService(
+    apiEndpoints.MOVIE_DETAILS(id),
+    "Error on fetch movie details by id"
+  );
   return movie;
 };
 

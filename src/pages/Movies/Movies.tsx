@@ -65,7 +65,7 @@ function Movies() {
             value={input}
           />
         </Header>
-        {(input == "") ?
+        {(input === "") ?
           <MoviesGrid movies={moviesList as Movie[]} /> :
           <MoviesGrid movies={MoviesSearch as Movie[]} />}
       </Main>
