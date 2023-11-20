@@ -94,6 +94,8 @@ const Header = styled("div")({
 });
 
 const Title = styled("p")({
+  fontSize: "1.5rem",
+  lineHeight: "2rem",
   "@media(min-width: 640px)": {
     fontSize: "2.25rem",
     lineHeight: "2.5rem",

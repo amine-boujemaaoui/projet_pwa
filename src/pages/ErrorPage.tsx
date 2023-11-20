@@ -24,7 +24,7 @@ const Main = styled("main")({
     alignItems: "center",
     minWidth: "100%",
     minHeight: "100vh",
-    padding: "3rem",
+    padding: "1.5rem",
 });
 
 const CenteredContent = styled("div")({

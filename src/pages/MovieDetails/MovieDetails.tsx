@@ -46,7 +46,7 @@ function MovieDetails() {
       credit.job === "Director" ||
       credit.job === "Original Music Composer"
   );
-  
+
   const creditsFiltered: Credit[] = [...(creditsCast || []), ...(creditsCrew || [])];
   const imagesFiltered: MovieImage[] = images!.filter(image => image.iso_639_1 === null);
 
@@ -54,7 +54,7 @@ function MovieDetails() {
     movie && movie.release_date ?
       new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric" }).format(new Date(movie.release_date))
       : "0000-00-00";
-  
+
   return (
     <Main
       path={movie?.backdrop_path || ""}
@@ -65,22 +65,12 @@ function MovieDetails() {
           <LeftArrow /> Back
         </Link>
         <Header>
-          <Card
-            customStyle={{
-              width: "300px",
-              height: "auto",
-            }}
-          >
-            <PosterImage
-              src= {(movie?.poster_path != null) ? serviceConfig.apiImagesUrl + `/` + movie?.poster_path : noImage}
-              alt={`${movie?.id}` || ""}
-            />
-          </Card>
+          <MoviePoster poster_path={movie!.poster_path} id={movie!.id} />
           <TextContainer>
             <MovieTitle>{movie?.title}</MovieTitle>
             <Overview>{movie?.overview}</Overview>
             <Genre>
-              {movie?.genres.map((item: Genre) => item.name).join(", ")}
+              <Genres genres={movie!.genres}/>
             </Genre>
             <ReleaseDate>{formattedDateString}</ReleaseDate>
           </TextContainer>
@@ -88,30 +78,13 @@ function MovieDetails() {
         <CreditsContainer>
           <CreditsTitle>Credits</CreditsTitle>
           <CreditsList>
-            {creditsFiltered?.map((credit, index) => {
-              return (
-                <CreditCard
-                  key={index}
-                  name={credit.name}
-                  character={credit.character}
-                  profile_path={credit.profile_path}
-                  id={credit.id}
-                  job={credit.job}
-                />
-              );
-            })}
+            <CreditCardMap creditsMap={creditsFiltered} />
           </CreditsList>
         </CreditsContainer>
         <ImagesContainer>
           <ImagesTitle>Images</ImagesTitle>
           <ImagesList>
-            {imagesFiltered.map((image, index) => {
-              return (
-                <Card key={index} customStyle={{ width: "1200px" }}>
-                  <PosterImage src={(image.file_path != null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />
-                </Card>
-              );
-            })}
+            <ImageMap imagesMap={imagesFiltered}/>
           </ImagesList>
         </ImagesContainer>
       </Container>
@@ -120,6 +93,55 @@ function MovieDetails() {
 }
 
 export default MovieDetails;
+
+const MoviePoster = ({ poster_path, id }: { poster_path: string | null, id: number }) => {
+  return (
+    <Card
+      customStyle={{
+        width: "300px",
+        height: "auto",
+      }}
+    >
+      <PosterImage
+        src={(poster_path != null) ? serviceConfig.apiImagesUrl + `/` + poster_path : noImage}
+        alt={`${id}` || ""}
+      />
+    </Card>
+  );
+};
+
+const CreditCardMap = ({ creditsMap }: { creditsMap: Credit[] }) => {
+  return (
+    creditsMap.map((credit: Credit, index: number) => {
+      return (
+          <CreditCard
+            key={index}
+            name={credit.name}
+            character={credit.character}
+            profile_path={credit.profile_path}
+            id={credit.id}
+            job={credit.job}
+          />
+        )
+    })
+  );
+};
+
+const ImageMap = ({ imagesMap }: { imagesMap: MovieImage[] }) => {
+  return (
+    imagesMap.map((image: MovieImage) => {
+      return (
+        <PosterImage src={(image.file_path != null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />
+      );
+    })
+  );
+};
+
+const Genres = ({ genres }: { genres: Genre[] }) => {
+  return (
+    genres.map((item: Genre) => item.name).join(", ")
+  );
+};
 
 const backLinkStyle = {
   textDecoration: "none",
@@ -132,7 +154,7 @@ const backLinkStyle = {
 };
 
 const Main = styled("main")(({ path }: { path: string }) => ({
-  backgroundImage: `url("${(path != null) ? serviceConfig.apiImagesUrl+path : "none" }")`,
+  backgroundImage: `url("${(path != null) ? serviceConfig.apiImagesUrl + path : "none"}")`,
   display: "flex",
   backgroundSize: "cover",
   minWidth: "100%",
@@ -155,7 +177,10 @@ const Header = styled("div")({
 });
 
 const Container = styled("div")({
-  padding: "3rem",
+  padding: "1.5rem",
+  "@media (min-width: 640px)": {
+    padding: "3rem",
+  },
   backdropFilter: "blur(35px)",
   overflow: "hidden",
   gap: "1rem",
