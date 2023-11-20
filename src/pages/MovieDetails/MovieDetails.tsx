@@ -50,15 +50,11 @@ function MovieDetails() {
   const creditsFiltered: Credit[] = [...(creditsCast || []), ...(creditsCrew || [])];
   const imagesFiltered: MovieImage[] = images!.filter(image => image.iso_639_1 === null);
 
-  console.log(imagesFiltered);
-
   const formattedDateString =
     movie && movie.release_date ?
       new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric" }).format(new Date(movie.release_date))
       : "0000-00-00";
   
-  
-
   return (
     <Main
       path={movie?.backdrop_path || ""}
