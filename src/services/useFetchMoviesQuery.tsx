@@ -1,8 +1,7 @@
-import fetchService from "./fetchService"
-import { Movie } from "../interfaces/movie"
+import fetchService from "./fetchService";
+import { Movie } from "../interfaces/movie";
 import { useQuery } from "react-query";
 import { apiEndpoints } from "./servicesConfig";
-
 
 const getMovies = async () => {
   const movies = await fetchService(

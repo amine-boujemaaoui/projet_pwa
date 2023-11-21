@@ -5,25 +5,27 @@ import { ThemeProvider } from "./theme/ThemeProvider";
 import ErrorPage from "./pages/ErrorPage";
 
 function App() {
-
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Movies />,
-    },
-    {
-      path: "/movies",
-      element: <Movies />,
-    },
-    {
-      path: "/movie/:movieId",
-      element: <MovieDetails />,
-    },
-    {
-      path: "*",
-      element: <ErrorPage />,
-    },
-  ], { basename: "/projet_pwa" });
+  const router = createBrowserRouter(
+    [
+      {
+        path: "/",
+        element: <Movies />,
+      },
+      {
+        path: "/movies",
+        element: <Movies />,
+      },
+      {
+        path: "/movie/:movieId",
+        element: <MovieDetails />,
+      },
+      {
+        path: "*",
+        element: <ErrorPage />,
+      },
+    ],
+    { basename: "/projet_pwa" }
+  );
 
   return (
     <ThemeProvider>

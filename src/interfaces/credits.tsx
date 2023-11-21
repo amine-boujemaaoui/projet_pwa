@@ -1,6 +1,6 @@
 export interface Credits {
-  cast: Credit[],
-  crew: Credit[]
+  cast: Credit[];
+  crew: Credit[];
 }
 
 export interface Credit {

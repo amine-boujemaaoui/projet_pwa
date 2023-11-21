@@ -12,5 +12,7 @@ const getSearchMovies = async (query: string) => {
 };
 
 export const useFetchSearchMovies = (query: string) => {
-  return useQuery<Movie[]>(['moviesSearch', query], async () => getSearchMovies(query));
+  return useQuery<Movie[]>(["moviesSearch", query], async () =>
+    getSearchMovies(query)
+  );
 };

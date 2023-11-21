@@ -1,11 +1,9 @@
-
-import fetchService from "./fetchService"
-import { MovieDetails } from "../interfaces/movieDetails"
+import fetchService from "./fetchService";
+import { MovieDetails } from "../interfaces/movieDetails";
 import { useQuery } from "react-query";
 import { apiEndpoints } from "./servicesConfig";
 
-
-const getMovieDetails = async (id : string) => {
+const getMovieDetails = async (id: string) => {
   const movie = await fetchService(
     apiEndpoints.MOVIE_DETAILS(id),
     "Error on fetch movie details by id"

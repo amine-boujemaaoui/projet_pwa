@@ -11,12 +11,11 @@ import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
 import { LeftArrow } from "../../design/atoms/leftArrow";
-import noImage from "/noImage.jpg?url"
+import noImage from "/noImage.jpg?url";
 import { Credit } from "../../interfaces/credits";
 import { MovieImage } from "../../interfaces/movieImage";
 
 function MovieDetails() {
-
   const { movieId } = useParams<{ movieId: string }>();
 
   const {
@@ -37,28 +36,37 @@ function MovieDetails() {
     isLoading: isLoadingCredits,
   } = useFetchMovieCredits(movieId!);
 
-  if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
-  if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
+  if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />;
+  if (isLoadingCredits || isLoadingDetails || isLoadingImages)
+    return <LoadingPage />;
 
   const creditsCast = credits!.cast.slice(0, 10);
   const creditsCrew = credits!.crew.filter(
     (credit) =>
-      credit.job === "Director" ||
-      credit.job === "Original Music Composer"
+      credit.job === "Director" || credit.job === "Original Music Composer"
   );
 
-  const creditsFiltered: Credit[] = [...(creditsCast || []), ...(creditsCrew || [])];
-  const imagesFiltered: MovieImage[] = images!.filter(image => image.iso_639_1 === null);
+  const creditsFiltered: Credit[] = [
+    ...(creditsCast || []),
+    ...(creditsCrew || []),
+  ];
+  const imagesFiltered: MovieImage[] = images!.filter(
+    (image) => image.iso_639_1 === null
+  );
 
   const formattedDateString =
-    movie && movie.release_date ?
-      new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric" }).format(new Date(movie.release_date))
+    movie && movie.release_date
+      ? new Intl.DateTimeFormat("en-US", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        }).format(new Date(movie.release_date))
       : "0000-00-00";
 
   return (
     <Main
       path={movie?.backdrop_path || ""}
-      className={`${movie?.backdrop_path === null ? 'dark-theme' : ""}`}
+      className={`${movie?.backdrop_path === null ? "dark-theme" : ""}`}
     >
       <Container>
         <Link to={`/`} style={backLinkStyle} className={"hover"}>
@@ -70,7 +78,7 @@ function MovieDetails() {
             <MovieTitle>{movie!.title}</MovieTitle>
             <Overview>{movie!.overview}</Overview>
             <Genre>
-              <Genres genres={movie!.genres}/>
+              <Genres genres={movie!.genres} />
             </Genre>
             <ReleaseDate>{formattedDateString}</ReleaseDate>
           </TextContainer>
@@ -84,7 +92,13 @@ function MovieDetails() {
 
 export default MovieDetails;
 
-const MoviePoster = ({ poster_path, id }: { poster_path: string | null, id: number }) => {
+const MoviePoster = ({
+  poster_path,
+  id,
+}: {
+  poster_path: string | null;
+  id: number;
+}) => {
   return (
     <Card
       customStyle={{
@@ -93,7 +107,11 @@ const MoviePoster = ({ poster_path, id }: { poster_path: string | null, id: numb
       }}
     >
       <PosterImage
-        src={(poster_path !== null) ? serviceConfig.apiImagesUrl + `/` + poster_path : noImage}
+        src={
+          poster_path !== null
+            ? serviceConfig.apiImagesUrl + `/` + poster_path
+            : noImage
+        }
         alt={`${id}` || ""}
       />
     </Card>
@@ -101,39 +119,39 @@ const MoviePoster = ({ poster_path, id }: { poster_path: string | null, id: numb
 };
 
 const CreditCardMap = ({ creditsMap }: { creditsMap: Credit[] }) => {
-  return (
-    creditsMap.map((credit: Credit, index: number) => {
-      return (
-          <CreditCard
-            key={index}
-            name={credit.name}
-            character={credit.character}
-            profile_path={credit.profile_path}
-            id={credit.id}
-            job={credit.job}
-          />
-        )
-    })
-  );
+  return creditsMap.map((credit: Credit, index: number) => {
+    return (
+      <CreditCard
+        key={index}
+        name={credit.name}
+        character={credit.character}
+        profile_path={credit.profile_path}
+        id={credit.id}
+        job={credit.job}
+      />
+    );
+  });
 };
 
 const ImageMap = ({ imagesMap }: { imagesMap: MovieImage[] }) => {
-  return (
-    imagesMap.map((image: MovieImage) => {
-      return (
-        <PosterImage src={(image.file_path !== null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />
-      );
-    })
-  );
+  return imagesMap.map((image: MovieImage) => {
+    return (
+      <PosterImage
+        src={
+          image.file_path !== null
+            ? serviceConfig.apiImagesUrl + `/` + image.file_path
+            : noImage
+        }
+      />
+    );
+  });
 };
 
 const Genres = ({ genres }: { genres: Genre[] }) => {
-  return (
-    genres.map((item: Genre) => item.name).join(", ")
-  );
+  return genres.map((item: Genre) => item.name).join(", ");
 };
 
-const Images = ({ imagesFiltered } : {imagesFiltered: MovieImage[]}) => {
+const Images = ({ imagesFiltered }: { imagesFiltered: MovieImage[] }) => {
   return (
     <ImagesContainer>
       <ImagesTitle>Images</ImagesTitle>
@@ -141,8 +159,8 @@ const Images = ({ imagesFiltered } : {imagesFiltered: MovieImage[]}) => {
         <ImageMap imagesMap={imagesFiltered} />
       </ImagesList>
     </ImagesContainer>
-  )
-} 
+  );
+};
 
 const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
   return (
@@ -152,8 +170,8 @@ const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
         <CreditCardMap creditsMap={creditsMap} />
       </CreditsList>
     </CreditsContainer>
-  )
-} 
+  );
+};
 
 const backLinkStyle = {
   textDecoration: "none",
@@ -162,18 +180,19 @@ const backLinkStyle = {
   display: "flex",
   alignSelf: "flex-start",
   alignItems: "center",
-  gap: ".25rem"
+  gap: ".25rem",
 };
 
 const Main = styled("main")(({ path }: { path: string }) => ({
-  backgroundImage: `url("${(path != null) ? serviceConfig.apiImagesUrl + path : "none"}")`,
+  backgroundImage: `url("${
+    path != null ? serviceConfig.apiImagesUrl + path : "none"
+  }")`,
   display: "flex",
   backgroundSize: "cover",
   minWidth: "100%",
   minHeight: "100vh",
   flexDirection: "column",
 }));
-
 
 const Header = styled("div")({
   display: "flex",

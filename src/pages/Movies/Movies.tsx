@@ -1,15 +1,14 @@
-import { PropsWithChildren, useEffect, useRef, useState } from 'react';
-import { Movie } from '../../interfaces/movie';
-import { useTheme } from '../../theme/ThemeProvider';
-import ErrorPage from '../ErrorPage';
-import LoadingPage from '../LoadingPage';
-import MoviesGrid from './MoviesGrid';
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { Movie } from "../../interfaces/movie";
+import { useTheme } from "../../theme/ThemeProvider";
+import ErrorPage from "../ErrorPage";
+import LoadingPage from "../LoadingPage";
+import MoviesGrid from "./MoviesGrid";
 import styled from "@emotion/styled";
-import { useFetchSearchMovies } from '../../services/useFetchSearchMovies';
-import { useFetchMoviesQuery } from '../../services/useFetchMoviesQuery';
+import { useFetchSearchMovies } from "../../services/useFetchSearchMovies";
+import { useFetchMoviesQuery } from "../../services/useFetchMoviesQuery";
 
 function Movies() {
-
   const { theme } = useTheme();
   const [input, setInput] = useState("");
   const latestInput = useRef(input);
@@ -18,31 +17,33 @@ function Movies() {
     data: MoviesSearch,
     isLoading: isLoadingSearch,
     isError: isErrorSearch,
-    refetch
+    refetch,
   } = useFetchSearchMovies(latestInput.current);
 
   const {
     data: moviesList,
     isError: isErrorList,
-    isLoading: isLoadingList
-  } = useFetchMoviesQuery()
+    isLoading: isLoadingList,
+  } = useFetchMoviesQuery();
 
   useEffect(() => {
     latestInput.current = input.trim();
     if (latestInput.current !== "") refetch();
   }, [input]);
 
-  const handleChange = (value: string) => { setInput(value); };
+  const handleChange = (value: string) => {
+    setInput(value);
+  };
 
   if (isErrorSearch || isErrorList) return <ErrorPage />;
 
   const MoviesMain = ({ children }: PropsWithChildren) => (
-    <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+    <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
       <Header>
         <Title>🎬🍿 Movie library</Title>
         <Search
           type="text"
-          placeholder='🔎 Search for movie'
+          placeholder="🔎 Search for movie"
           onChange={(e) => handleChange(e.target.value)}
           value={input}
         />
@@ -60,11 +61,11 @@ function Movies() {
   }
 
   return (
-    <MoviesMain >
+    <MoviesMain>
       (input === "") ?
       <MoviesGrid movies={moviesList as Movie[]} /> :
       <MoviesGrid movies={MoviesSearch as Movie[]} />
-    </MoviesMain >
+    </MoviesMain>
   );
 }
 
