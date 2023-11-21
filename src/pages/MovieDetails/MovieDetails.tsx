@@ -40,8 +40,8 @@ function MovieDetails() {
   if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
   if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
 
-  const creditsCast = credits?.cast.slice(0, 10);
-  const creditsCrew = credits?.crew.filter(
+  const creditsCast = credits!.cast.slice(0, 10);
+  const creditsCrew = credits!.crew.filter(
     (credit) =>
       credit.job === "Director" ||
       credit.job === "Original Music Composer"
