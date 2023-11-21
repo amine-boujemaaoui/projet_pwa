@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Movie } from '../../interfaces/movie';
 import { useTheme } from '../../theme/ThemeProvider';
 import ErrorPage from '../ErrorPage';
@@ -26,7 +26,7 @@ function Movies() {
     isError: isErrorList,
     isLoading: isLoadingList
   } = useFetchMoviesQuery()
-  
+
   useEffect(() => {
     latestInput.current = input.trim();
     if (latestInput.current !== "") refetch();
@@ -36,40 +36,35 @@ function Movies() {
 
   if (isErrorSearch || isErrorList) return <ErrorPage />;
 
+  const MoviesMain = ({ children }: PropsWithChildren) => (
+    <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
+      <Header>
+        <Title>🎬🍿 Movie library</Title>
+        <Search
+          type="text"
+          placeholder='🔎 Search for movie'
+          onChange={(e) => handleChange(e.target.value)}
+          value={input}
+        />
+      </Header>
+      {children}
+    </Main>
+  );
+
   if (isLoadingSearch || isLoadingList) {
     return (
-      <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-        <Header>
-          <Title>🎬🍿 Movie library</Title>
-          <Search
-            type="text"
-            placeholder='🔎 Search for movie'
-            onChange={(e) => handleChange(e.target.value)}
-            value={input}
-          />
-        </Header>
+      <MoviesMain>
         <LoadingPage />
-      </Main>
+      </MoviesMain>
     );
   }
 
   return (
-    <>
-      <Main className={`${theme === 'dark' ? 'dark-theme' : 'light-theme'}`}>
-        <Header>
-          <Title>🎬🍿 Movie library</Title>
-          <Search
-            type="text"
-            placeholder='🔎 Search for movie'
-            onChange={(e) => handleChange(e.target.value)}
-            value={input}
-          />
-        </Header>
-        {(input === "") ?
-          <MoviesGrid movies={moviesList as Movie[]} /> :
-          <MoviesGrid movies={MoviesSearch as Movie[]} />}
-      </Main>
-    </>
+    <MoviesMain >
+      (input === "") ?
+      <MoviesGrid movies={moviesList as Movie[]} /> :
+      <MoviesGrid movies={MoviesSearch as Movie[]} />
+    </MoviesMain >
   );
 }
 
@@ -119,5 +114,3 @@ const Search = styled("input")({
   },
   margin: "0",
 });
-
-

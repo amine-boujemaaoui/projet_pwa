@@ -75,18 +75,8 @@ function MovieDetails() {
             <ReleaseDate>{formattedDateString}</ReleaseDate>
           </TextContainer>
         </Header>
-        <CreditsContainer>
-          <CreditsTitle>Credits</CreditsTitle>
-          <CreditsList>
-            <CreditCardMap creditsMap={creditsFiltered} />
-          </CreditsList>
-        </CreditsContainer>
-        <ImagesContainer>
-          <ImagesTitle>Images</ImagesTitle>
-          <ImagesList>
-            <ImageMap imagesMap={imagesFiltered}/>
-          </ImagesList>
-        </ImagesContainer>
+        <Credits creditsMap={creditsFiltered} />
+        <Images imagesFiltered={imagesFiltered} />
       </Container>
     </Main>
   );
@@ -142,6 +132,28 @@ const Genres = ({ genres }: { genres: Genre[] }) => {
     genres.map((item: Genre) => item.name).join(", ")
   );
 };
+
+const Images = ({ imagesFiltered } : {imagesFiltered: MovieImage[]}) => {
+  return (
+    <ImagesContainer>
+      <ImagesTitle>Images</ImagesTitle>
+      <ImagesList>
+        <ImageMap imagesMap={imagesFiltered} />
+      </ImagesList>
+    </ImagesContainer>
+  )
+} 
+
+const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
+  return (
+    <CreditsContainer>
+      <CreditsTitle>Credits</CreditsTitle>
+      <CreditsList>
+        <CreditCardMap creditsMap={creditsMap} />
+      </CreditsList>
+    </CreditsContainer>
+  )
+} 
 
 const backLinkStyle = {
   textDecoration: "none",
