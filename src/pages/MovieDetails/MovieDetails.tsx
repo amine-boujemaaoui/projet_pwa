@@ -23,19 +23,19 @@ function MovieDetails() {
     data: images,
     isError: isErrorImages,
     isLoading: isLoadingImages,
-  } = useFetchMovieImages(movieId as unknown as string);
+  } = useFetchMovieImages(movieId!);
 
   const {
     data: movie,
     isError: isErrorDetails,
     isLoading: isLoadingDetails,
-  } = useFetchMovieDetailsQuery(movieId as unknown as string);
+  } = useFetchMovieDetailsQuery(movieId!);
 
   const {
     data: credits,
     isError: isErrorCredits,
     isLoading: isLoadingCredits,
-  } = useFetchMovieCredits(movieId as unknown as string);
+  } = useFetchMovieCredits(movieId!);
 
   if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />
   if (isLoadingCredits || isLoadingDetails || isLoadingImages) return <LoadingPage />
