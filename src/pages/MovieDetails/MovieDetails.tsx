@@ -67,8 +67,8 @@ function MovieDetails() {
         <Header>
           <MoviePoster poster_path={movie!.poster_path} id={movie!.id} />
           <TextContainer>
-            <MovieTitle>{movie?.title}</MovieTitle>
-            <Overview>{movie?.overview}</Overview>
+            <MovieTitle>{movie!.title}</MovieTitle>
+            <Overview>{movie!.overview}</Overview>
             <Genre>
               <Genres genres={movie!.genres}/>
             </Genre>
@@ -93,7 +93,7 @@ const MoviePoster = ({ poster_path, id }: { poster_path: string | null, id: numb
       }}
     >
       <PosterImage
-        src={(poster_path != null) ? serviceConfig.apiImagesUrl + `/` + poster_path : noImage}
+        src={(poster_path !== null) ? serviceConfig.apiImagesUrl + `/` + poster_path : noImage}
         alt={`${id}` || ""}
       />
     </Card>
@@ -121,7 +121,7 @@ const ImageMap = ({ imagesMap }: { imagesMap: MovieImage[] }) => {
   return (
     imagesMap.map((image: MovieImage) => {
       return (
-        <PosterImage src={(image.file_path != null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />
+        <PosterImage src={(image.file_path !== null) ? serviceConfig.apiImagesUrl + `/` + image.file_path : noImage} />
       );
     })
   );
