@@ -1,14 +1,18 @@
 import styled from "@emotion/styled";
 import { useTheme } from "../theme/ThemeProvider";
+import { Grid } from "../design/ui/Grid";
+import MovieCardSkeleton from "../design/molecules/MovieCardSkeleton";
 
 function ErrorPage() {
   const { theme } = useTheme();
 
   return (
     <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
-      <CenteredContent>
-        <h1>Loading ...</h1>
-      </CenteredContent>
+      <Grid>
+        {Array.from(Array(10).keys()).map((value) => (
+          <MovieCardSkeleton key={value} />
+        ))}
+      </Grid>
     </Main>
   );
 }
@@ -24,10 +28,4 @@ const Main = styled("main")({
   minWidth: "100%",
   padding: "1.5rem",
   minHeight: "100vh",
-});
-
-const CenteredContent = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
 });

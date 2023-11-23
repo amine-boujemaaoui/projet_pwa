@@ -94,6 +94,8 @@ function Movies() {
       </Header>
       {input === "" ? (
         <MoviesGrid movies={moviesList as Movie[]} />
+      ) : MoviesSearch?.length === 0 ? (
+        <p>No movies found.</p>
       ) : (
         <MoviesGrid movies={MoviesSearch as Movie[]} />
       )}
