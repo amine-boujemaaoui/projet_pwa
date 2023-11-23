@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Movies from "./pages/Movies/Movies";
 import MovieDetails from "./pages/MovieDetails/MovieDetails";
 import { ThemeProvider } from "./theme/ThemeProvider";
-import ErrorPage from "./pages/ErrorPage";
+import ErrorPage from "./design/molecules/ErrorPage";
 
 function App() {
   const router = createBrowserRouter(

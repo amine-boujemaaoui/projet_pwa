@@ -8,14 +8,16 @@ import { useFetchMovieCredits } from "../../services/useFetchMovieCreditsQuery";
 import { CreditCard } from "../../design/molecules/CreditCard";
 import { Genre } from "../../interfaces/genre";
 import { useFetchMovieImages } from "../../services/useFetchMovieImagesQuery";
-import ErrorPage from "../ErrorPage";
-import LoadingPage from "../LoadingPage";
+import ErrorPage from "../../design/molecules/ErrorPage";
 import { LeftArrow } from "../../design/atoms/leftArrow";
 import noImage from "/noImage.jpg?url";
 import { Credit } from "../../interfaces/credits";
 import { MovieImage } from "../../interfaces/movieImage";
+import { useTheme } from "../../theme/ThemeProvider";
 
 function MovieDetails() {
+
+  const { theme } = useTheme();
   const { movieId } = useParams<{ movieId: string }>();
 
   const {
@@ -38,7 +40,12 @@ function MovieDetails() {
 
   if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />;
   if (isLoadingCredits || isLoadingDetails || isLoadingImages)
-    return <LoadingPage />;
+    return (
+      <Main
+        path={""}
+        className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}
+      ></Main>
+    );
 
   const creditsCast = credits!.cast.slice(0, 10);
   const creditsCrew = credits!.crew.filter(

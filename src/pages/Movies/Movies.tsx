@@ -1,8 +1,8 @@
 import { /*PropsWithChildren,*/ useEffect, useRef, useState } from "react";
 import { Movie } from "../../interfaces/movie";
 import { useTheme } from "../../theme/ThemeProvider";
-import ErrorPage from "../ErrorPage";
-import LoadingPage from "../LoadingPage";
+import ErrorPage from "../../design/molecules/ErrorPage";
+import LoadingMovies from "../../design/molecules/LoadingMovies";
 import MoviesGrid from "../../design/molecules/MoviesGrid";
 import styled from "@emotion/styled";
 import { useFetchSearchMovies } from "../../services/useFetchSearchMovies";
@@ -56,7 +56,7 @@ function Movies() {
     return (
       /*
       <MoviesMain>
-        <LoadingPage />
+        <LoadingMovies />
       </MoviesMain>
       */
       <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
@@ -69,7 +69,7 @@ function Movies() {
             value={input}
           />
         </Header>
-        <LoadingPage />
+        <LoadingMovies />
       </Main>
     );
   }
