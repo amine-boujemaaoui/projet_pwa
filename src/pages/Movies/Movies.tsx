@@ -3,7 +3,7 @@ import { Movie } from "../../interfaces/movie";
 import { useTheme } from "../../theme/ThemeProvider";
 import ErrorPage from "../ErrorPage";
 import LoadingPage from "../LoadingPage";
-import MoviesGrid from "./MoviesGrid";
+import MoviesGrid from "../../design/molecules/MoviesGrid";
 import styled from "@emotion/styled";
 import { useFetchSearchMovies } from "../../services/useFetchSearchMovies";
 import { useFetchMoviesQuery } from "../../services/useFetchMoviesQuery";

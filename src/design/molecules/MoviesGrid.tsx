@@ -1,5 +1,5 @@
-import { MovieCard } from "../../design/molecules/MovieCard";
-import { Grid } from "../../design/ui/Grid";
+import { MovieCard } from "./MovieCard";
+import { Grid } from "../ui/Grid";
 import { Movie } from "../../interfaces/movie";
 
 function MoviesGrid({ movies }: { movies: Movie[] }) {
