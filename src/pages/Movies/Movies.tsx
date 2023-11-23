@@ -1,4 +1,8 @@
-import { /*PropsWithChildren,*/ useEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Movie } from "../../interfaces/movie";
 import { useTheme } from "../../theme/ThemeProvider";
 import ErrorPage from "../../design/molecules/ErrorPage";
@@ -36,62 +40,17 @@ function Movies() {
   };
 
   if (isErrorSearch || isErrorList) return <ErrorPage />;
-  /*
-  const MoviesMain = ({ children }: PropsWithChildren) => (
-    <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
-      <Header>
-        <Title>🎬🍿 Movie library</Title>
-        <Search
-          type="text"
-          placeholder="🔎 Search for movie"
-          onChange={(e) => handleChange(e.target.value)}
-          value={input}
-        />
-      </Header>
-      {children}
-    </Main>
-  );
-  */
+
   if (isLoadingSearch || isLoadingList) {
     return (
-      /*
-      <MoviesMain>
+      <MoviesMain handleChange={handleChange} theme={theme}>
         <LoadingMovies />
       </MoviesMain>
-      */
-      <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
-        <Header>
-          <Title>🎬🍿 Movie library</Title>
-          <Search
-            type="text"
-            placeholder="🔎 Search for movie"
-            onChange={(e) => handleChange(e.target.value)}
-            value={input}
-          />
-        </Header>
-        <LoadingMovies />
-      </Main>
     );
   }
 
   return (
-    /*
-    <MoviesMain>
-      {(input === "") ?
-        <MoviesGrid movies={moviesList as Movie[]} /> :
-        <MoviesGrid movies={MoviesSearch as Movie[]} />}
-    </MoviesMain>
-    */
-    <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
-      <Header>
-        <Title>🎬🍿 Movie library</Title>
-        <Search
-          type="text"
-          placeholder="🔎 Search for movie"
-          onChange={(e) => handleChange(e.target.value)}
-          value={input}
-        />
-      </Header>
+    <MoviesMain handleChange={handleChange} theme={theme}>
       {input === "" ? (
         <MoviesGrid movies={moviesList as Movie[]} />
       ) : MoviesSearch?.length === 0 ? (
@@ -99,11 +58,42 @@ function Movies() {
       ) : (
         <MoviesGrid movies={MoviesSearch as Movie[]} />
       )}
-    </Main>
+    </MoviesMain>
   );
 }
 
 export default Movies;
+
+const MovieSearchInput = ({
+  handleChange,
+}: {
+  handleChange: (e: string) => void;
+}) => {
+  return (
+    <Search
+      type="text"
+      placeholder="🔎 Search for movie"
+      onChange={(e) => handleChange(e.target.value)}
+    />
+  );
+};
+
+interface MoviesMainProps {
+  children: React.ReactNode;
+  theme: string;
+  handleChange: (e: string) => void;
+}
+const MoviesMain = ({ children, theme, handleChange }: MoviesMainProps) => {
+  return (
+    <Main className={`${theme === "dark" ? "dark-theme" : "light-theme"}`}>
+      <Header>
+        <Title>🎬🍿 Movie library</Title>
+        <MovieSearchInput handleChange={handleChange}></MovieSearchInput>
+      </Header>
+      {children}
+    </Main>
+  );
+};
 
 const Main = styled("main")({
   display: "flex",
