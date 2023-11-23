@@ -273,6 +273,7 @@ const CreditsList = styled("div")({
 const CreditsTitle = styled("div")({
   fontSize: "1.875rem",
   lineHeight: "2.25rem",
+  color: "white"
 });
 
 const ImagesContainer = styled("div")({
@@ -295,4 +296,5 @@ const ImagesList = styled("div")({
 const ImagesTitle = styled("div")({
   fontSize: "1.875rem",
   lineHeight: "2.25rem",
+  color: "white",
 });
