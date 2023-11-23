@@ -225,6 +225,7 @@ const TextContainer = styled("div")({
   flexDirection: "column",
   width: "auto",
   flex: "1",
+  color: "white",
 });
 
 const MovieTitle = styled("p")({
