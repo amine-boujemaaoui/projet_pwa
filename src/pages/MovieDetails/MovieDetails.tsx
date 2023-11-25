@@ -187,8 +187,6 @@ const Genres = ({ genres }: { genres: Genre[] }) => {
 };
 
 const Images = ({ imagesFiltered }: { imagesFiltered: MovieImage[] }) => {
-  console.log("imagesFiltered");
-  console.log(imagesFiltered);
   return (
     <SubContainer>
       <Title>Images</Title>
@@ -200,9 +198,6 @@ const Images = ({ imagesFiltered }: { imagesFiltered: MovieImage[] }) => {
 };
 
 const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
-  console.log("creditsMap");
-  console.log(creditsMap);
-
   return (
     <SubContainer>
       <Title>Credits</Title>
@@ -214,8 +209,6 @@ const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
 };
 
 const Trailer = ({ trailer }: { trailer: Video }) => {
-  console.log(trailer);
-  console.log("trailer");
   return (
     <SubContainer>
       <Title>Trailer</Title>
