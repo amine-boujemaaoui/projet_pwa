@@ -113,9 +113,13 @@ function MovieDetails() {
             <ReleaseDate>{formattedDateString}</ReleaseDate>
           </TextContainer>
         </Header>
-        <Credits creditsMap={creditsFiltered} />
-        <Trailer trailer={trailerVideo!}></Trailer>
-        <Images imagesFiltered={imagesFiltered} />
+        {creditsFiltered && creditsFiltered.length !== 0 && (
+          <Credits creditsMap={creditsFiltered} />
+        )}
+        {trailerVideo && <Trailer trailer={trailerVideo!}></Trailer>}
+        {imagesFiltered && imagesFiltered.length !== 0 && (
+          <Images imagesFiltered={imagesFiltered} />
+        )}
       </Container>
     </Main>
   );
@@ -183,6 +187,8 @@ const Genres = ({ genres }: { genres: Genre[] }) => {
 };
 
 const Images = ({ imagesFiltered }: { imagesFiltered: MovieImage[] }) => {
+  console.log("imagesFiltered");
+  console.log(imagesFiltered);
   return (
     <SubContainer>
       <Title>Images</Title>
@@ -194,6 +200,9 @@ const Images = ({ imagesFiltered }: { imagesFiltered: MovieImage[] }) => {
 };
 
 const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
+  console.log("creditsMap");
+  console.log(creditsMap);
+
   return (
     <SubContainer>
       <Title>Credits</Title>
@@ -205,6 +214,8 @@ const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
 };
 
 const Trailer = ({ trailer }: { trailer: Video }) => {
+  console.log(trailer);
+  console.log("trailer");
   return (
     <SubContainer>
       <Title>Trailer</Title>
@@ -258,7 +269,7 @@ const Container = styled("div")({
   "@media (min-width: 640px)": {
     padding: "3rem",
   },
-  backdropFilter: "blur(35px)",
+  backdropFilter: "blur(35px) brightness(75%);",
   overflow: "hidden",
   gap: "1.5rem",
   display: "flex",
@@ -279,7 +290,7 @@ const MovieTitle = styled("p")({
   margin: "0",
   fontSize: "2.25rem",
   lineHeight: "2.5rem",
-  paddingBottom: "0.5rem"
+  paddingBottom: "0.5rem",
 });
 
 const Overview = styled("p")({
