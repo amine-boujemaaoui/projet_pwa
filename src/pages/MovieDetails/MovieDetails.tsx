@@ -14,9 +14,11 @@ import noImage from "/noImage.jpg?url";
 import { Credit } from "../../interfaces/credits";
 import { MovieImage } from "../../interfaces/movieImage";
 import { useTheme } from "../../theme/ThemeProvider";
+import { Sites, Video, VideoTypes } from "../../interfaces/videos";
+import servicesConfig from "../../services/servicesConfig";
+import { useFetchMovieVideos } from "../../services/useFetchMovieVideos";
 
 function MovieDetails() {
-
   const { theme } = useTheme();
   const { movieId } = useParams<{ movieId: string }>();
 
@@ -38,8 +40,21 @@ function MovieDetails() {
     isLoading: isLoadingCredits,
   } = useFetchMovieCredits(movieId!);
 
-  if (isErrorCredits || isErrorDetails || isErrorImages) return <ErrorPage />;
-  if (isLoadingCredits || isLoadingDetails || isLoadingImages)
+  const {
+    data: videos,
+    isError: isErrorVideos,
+    isLoading: isLoadingVideos,
+  } = useFetchMovieVideos(movieId!);
+
+  if (isErrorCredits || isErrorDetails || isErrorImages || isErrorVideos)
+    return <ErrorPage />;
+
+  if (
+    isLoadingCredits ||
+    isLoadingDetails ||
+    isLoadingImages ||
+    isLoadingVideos
+  )
     return (
       <Main
         path={""}
@@ -57,6 +72,7 @@ function MovieDetails() {
     ...(creditsCast || []),
     ...(creditsCrew || []),
   ];
+
   const imagesFiltered: MovieImage[] = images!.filter(
     (image) => image.iso_639_1 === null
   );
@@ -69,6 +85,13 @@ function MovieDetails() {
           year: "numeric",
         }).format(new Date(movie.release_date))
       : "0000-00-00";
+
+  const trailerVideo: Video | undefined = videos!
+    .filter(
+      (video) =>
+        video.type === VideoTypes.TRAILER && video.site === Sites.YOUTUBE
+    )
+    .shift();
 
   return (
     <Main
@@ -91,6 +114,7 @@ function MovieDetails() {
           </TextContainer>
         </Header>
         <Credits creditsMap={creditsFiltered} />
+        <Trailer trailer={trailerVideo!}></Trailer>
         <Images imagesFiltered={imagesFiltered} />
       </Container>
     </Main>
@@ -160,23 +184,38 @@ const Genres = ({ genres }: { genres: Genre[] }) => {
 
 const Images = ({ imagesFiltered }: { imagesFiltered: MovieImage[] }) => {
   return (
-    <ImagesContainer>
-      <ImagesTitle>Images</ImagesTitle>
-      <ImagesList>
+    <SubContainer>
+      <Title>Images</Title>
+      <List>
         <ImageMap imagesMap={imagesFiltered} />
-      </ImagesList>
-    </ImagesContainer>
+      </List>
+    </SubContainer>
   );
 };
 
 const Credits = ({ creditsMap }: { creditsMap: Credit[] }) => {
   return (
-    <CreditsContainer>
-      <CreditsTitle>Credits</CreditsTitle>
-      <CreditsList>
+    <SubContainer>
+      <Title>Credits</Title>
+      <List>
         <CreditCardMap creditsMap={creditsMap} />
-      </CreditsList>
-    </CreditsContainer>
+      </List>
+    </SubContainer>
+  );
+};
+
+const Trailer = ({ trailer }: { trailer: Video }) => {
+  return (
+    <SubContainer>
+      <Title>Trailer</Title>
+      <iframe
+        height="1080px"
+        width="auto"
+        src={`${servicesConfig.youtubeUrl}${trailer.key}`}
+        title={trailer.name}
+        allowFullScreen
+      ></iframe>
+    </SubContainer>
   );
 };
 
@@ -221,7 +260,7 @@ const Container = styled("div")({
   },
   backdropFilter: "blur(35px)",
   overflow: "hidden",
-  gap: "1rem",
+  gap: "1.5rem",
   display: "flex",
   flexDirection: "column",
   flex: "1",
@@ -240,6 +279,7 @@ const MovieTitle = styled("p")({
   margin: "0",
   fontSize: "2.25rem",
   lineHeight: "2.5rem",
+  paddingBottom: "0.5rem"
 });
 
 const Overview = styled("p")({
@@ -260,48 +300,25 @@ const ReleaseDate = styled("p")({
   fontStyle: "italic",
 });
 
-const CreditsContainer = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  width: "auto",
-  flex: "1",
-  gap: "1rem",
-});
-
-const CreditsList = styled("div")({
-  display: "flex",
-  flexDirection: "row",
-  width: "auto",
-  flex: "1",
-  overflowX: "auto",
-  gap: "1.5rem",
-});
-
-const CreditsTitle = styled("div")({
-  fontSize: "1.875rem",
-  lineHeight: "2.25rem",
-  color: "white"
-});
-
-const ImagesContainer = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  width: "auto",
-  flex: "1",
-  gap: "1rem",
-});
-
-const ImagesList = styled("div")({
-  display: "flex",
-  flexDirection: "row",
-  width: "auto",
-  flex: "1",
-  overflowX: "auto",
-  gap: "1.5rem",
-});
-
-const ImagesTitle = styled("div")({
+const Title = styled("div")({
   fontSize: "1.875rem",
   lineHeight: "2.25rem",
   color: "white",
+});
+
+const SubContainer = styled("div")({
+  display: "flex",
+  flexDirection: "column",
+  width: "auto",
+  flex: "1",
+  gap: "1rem",
+});
+
+const List = styled("div")({
+  display: "flex",
+  flexDirection: "row",
+  width: "auto",
+  flex: "1",
+  overflowX: "auto",
+  gap: "1.5rem",
 });
